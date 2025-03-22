@@ -67,6 +67,13 @@ npm run ui:test
 serve-test-page.bat
 ```
 
+### Option 4: Desktop Application (Recommended for Connection Issues)
+For a standalone application that doesn't require a web server:
+```
+npm run ui:electron
+```
+This launches an Electron desktop application with the same functionality, but without requiring any network connectivity or port access.
+
 ## Server Status Check
 
 To check if the server is running:
@@ -141,4 +148,165 @@ cd ui && npm run dev
 
 # CORRECT in PowerShell:
 cd ui; npm run dev
-``` 
+```
+
+## UI Access Options
+
+You have several options for accessing the UI:
+
+1. **Next.js Development Server (default)**
+   - Port: 3001
+   - URL: http://localhost:3001
+   - Command: `npm run ui`
+
+2. **Express Server (alternative)**
+   - Port: 3001
+   - URL: http://localhost:3001
+   - Command: `npm run ui:express`
+
+3. **Simple Test Server**
+   - Port: 8000
+   - URL: http://localhost:8000/test-page.html
+   - Command: `npm run ui:test`
+
+4. **Desktop Application (no web server required)**
+   - No port/URL needed - runs as a standalone desktop app
+   - Command: `npm run ui:electron`
+   - Best option if you're having persistent connection issues
+
+## Quick Connection Test
+
+If you're having trouble connecting to the UI server, try the desktop application option first:
+
+```
+npm run ui:electron
+```
+
+This runs as a standalone application without requiring a web server or port access, which eliminates most connection issues.
+
+## Web Server Troubleshooting Steps
+
+If you prefer using the web-based UI options:
+
+1. **Check Server Status**
+   ```
+   npm run check:network
+   ```
+   This will run diagnostics on your network configuration.
+
+2. **Verify Port Access**
+   - Make sure ports 3000 and 3001 are not in use by other applications
+   - You can check with:
+     ```
+     netstat -ano | findstr :3001
+     ```
+   - To kill processes using the port:
+     ```
+     npm run clean
+     ```
+
+3. **Check Windows Firewall**
+   ```
+   npm run check:firewall
+   ```
+   This will verify your firewall settings.
+
+4. **Add Node.js to Firewall Exceptions**
+   ```
+   npm run firewall:allow
+   ```
+   This will add Node.js to your Windows Firewall exceptions.
+
+## Server Options
+
+### Option 1: Clean Start
+For a clean start that resolves port conflicts automatically:
+```
+npm run ui:clean
+```
+This script will:
+- Check for processes using port 3001
+- Kill any conflicting processes
+- Start the Next.js development server
+
+### Option 2: Express Server
+For a lightweight alternative server:
+```
+npm run ui:express
+```
+This uses Express.js instead of Next.js for a more stable server.
+
+### Option 3: Simple Test Server
+To just verify browser connectivity:
+```
+npm run ui:test
+```
+This serves a simple HTML test page on port 8000.
+
+### Option 4: Desktop Application (Recommended for Connection Issues)
+For a standalone application that doesn't require a web server:
+```
+npm run ui:electron
+```
+This launches an Electron desktop application with the same functionality, but without requiring any network connectivity or port access.
+
+## Common Issues and Solutions
+
+### "Cannot connect to server"
+- Try using the desktop application option: `npm run ui:electron`
+- Check if the server is running
+- Verify firewall settings
+- Try a different browser
+- Try using 127.0.0.1 instead of localhost
+
+### "Address already in use"
+- Run `npm run clean` to kill processes using the port
+- Run `npm run ui:clean` for a clean start
+
+### "Connection refused"
+- Check if your firewall is blocking the connection
+- Run `npm run firewall:allow` to add Node.js to exceptions
+- Try the desktop application option: `npm run ui:electron`
+
+### Browser shows blank page
+- Check browser console for errors
+- Try disabling browser extensions
+- Try a different browser
+- Try the desktop application option: `npm run ui:electron`
+
+### Slow page loading
+- Check your network connection
+- Try closing other applications that use the network
+- Try the desktop application option for a local experience: `npm run ui:electron`
+
+## Advanced Diagnostics
+
+If you're still having issues:
+
+1. **Run the comprehensive diagnostics**
+   ```
+   npm run check:network
+   ```
+
+2. **Check Windows hosts file**
+   Make sure localhost is properly mapped to 127.0.0.1 in your hosts file
+
+3. **Test with a minimal server**
+   ```
+   npm run ui:test
+   ```
+   Then try accessing http://localhost:8000/test-page.html
+
+4. **Try the desktop application**
+   ```
+   npm run ui:electron
+   ```
+   This completely bypasses network connectivity requirements
+
+## Need More Help?
+
+If you've tried these steps and still can't connect:
+
+1. Run `npm run check:network` and share the output
+2. Check if the desktop application option works for you
+3. Contact support with details of your system configuration and the error messages you're seeing 

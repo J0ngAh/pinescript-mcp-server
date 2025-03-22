@@ -1,6 +1,190 @@
 # System Patterns
 
-This document outlines the architectural design patterns used in the PineScript MCP system and explains how components interact with each other.
+## Overall Architecture
+
+The PineScript MCP project follows a modular architecture with several key components:
+
+1. **Core Backend Services**:
+   - Template Management System
+   - LLM Provider Integration
+   - Analysis Engine
+   - Database Services
+
+2. **User Interface**:
+   - Web UI (Next.js)
+   - Desktop Application (Electron)
+   - Command Line Interface
+
+3. **External Integrations**:
+   - LLM Providers (OpenAI, Anthropic)
+   - Data Storage (Supabase)
+   - TradingView Platform
+
+## UI Architecture
+
+### Web UI (Next.js)
+
+The web-based UI is built using Next.js with React and follows these patterns:
+
+1. **Component Structure**:
+   - Page-level components for main views
+   - Reusable UI components shared across pages
+   - Layout components for consistent structure
+
+2. **State Management**:
+   - React context for global state
+   - Local component state for UI-specific state
+   - API integration for data fetching
+
+3. **Routing**:
+   - Next.js file-based routing
+   - Dynamic routes for strategy and analysis views
+
+### Desktop Application (Electron)
+
+The Electron desktop application provides a server-less alternative with these patterns:
+
+1. **Process Architecture**:
+   - Main Process: Handles system operations, file access, and window management
+   - Renderer Process: Manages UI rendering and user interactions
+   - Preload Script: Creates secure bridge between processes
+
+2. **IPC Communication**:
+   - Contextbridge for secure exposure of main process APIs
+   - Async/await pattern for IPC calls
+   - Structured request/response system for data operations
+
+3. **UI Implementation**:
+   - Direct HTML/CSS/JS for the renderer
+   - Tailwind CSS for consistent styling with web UI
+   - Client-side navigation between views
+
+4. **File Management**:
+   - Local file access through IPC channels
+   - Secure bridging through contextIsolation
+   - JSON-based data storage for portability
+
+## Backend Architecture
+
+The backend follows these architectural patterns:
+
+1. **Service Pattern**:
+   - Each major functionality is encapsulated as a service
+   - Services are accessed through a common interface
+   - Dependency injection for service composition
+
+2. **Provider Pattern**:
+   - Abstract provider interfaces for different implementations
+   - Factory methods for provider selection
+   - Graceful fallback mechanisms
+   - Consistent input/output formats across providers
+
+3. **Template System**:
+   - Structured template format with defined sections
+   - Template registry for centralized management
+   - Version control and history tracking
+   - Vector embeddings for semantic search
+
+4. **Repository Pattern**:
+   - Data access through repository abstractions
+   - Transaction support for multi-step operations
+   - Caching for performance optimization
+   - Error handling and retry logic
+
+## Command Line Interface
+
+The CLI follows these patterns:
+
+1. **Command Structure**:
+   - Command registry for automatic discovery
+   - Command groups for related functionality
+   - Consistent help documentation
+   - Input validation and error handling
+
+2. **Output Formatting**:
+   - Structured console output with color coding
+   - Table formatting for data display
+   - Progress indicators for long-running operations
+   - Error messages with actionable information
+
+## Data Flow
+
+1. **Strategy Analysis Flow**:
+   - Strategy code input → Parser → Context Enrichment → LLM Provider → Results Formatter → User Output
+
+2. **Template Management Flow**:
+   - Template Definition → Validation → Storage → Embedding Generation → Searchable Index
+
+3. **Backtest Analysis Flow**:
+   - Backtest Results → Metrics Calculation → Context Assembly → LLM Analysis → Visualization
+
+## Error Handling
+
+1. **Graceful Degradation**:
+   - Fallback mechanisms for unavailable services
+   - Mock providers for development and testing
+   - Informative error messages for users
+
+2. **Error Categories**:
+   - Configuration errors (missing API keys, etc.)
+   - Network errors (API connectivity issues)
+   - Validation errors (invalid input formats)
+   - Processing errors (LLM response parsing issues)
+
+## Testing Approach
+
+1. **Unit Testing**:
+   - Component-level tests with jest
+   - Service isolation with mocks
+   - Validation of error handling
+
+2. **Integration Testing**:
+   - End-to-end workflows
+   - API contract validation
+   - Cross-provider testing
+
+3. **UI Testing**:
+   - Component rendering tests
+   - User interaction simulation
+   - Responsive design validation
+
+## Environment Handling
+
+1. **Configuration Management**:
+   - Environment variables for credentials
+   - Configuration files for defaults
+   - User-level customization options
+
+2. **Development Environment**:
+   - Local mock providers
+   - Test data generation
+   - Development-specific configuration
+   - Hot reloading for rapid iteration
+
+## Deployment Patterns
+
+1. **Production Deployment**:
+   - Environment-specific configuration
+   - CI/CD pipeline integration
+   - Versioned releases
+
+2. **Desktop Deployment**:
+   - Electron packaging for distribution
+   - Automatic updates
+   - Cross-platform compatibility (Windows, Mac, Linux)
+
+## Design Patterns Used
+
+1. Singleton Pattern (for LLM service, template manager)
+2. Factory Pattern (for provider selection, template creation)
+3. Repository Pattern (for data access)
+4. Strategy Pattern (for different analysis approaches)
+5. Observer Pattern (for event-driven updates)
+6. Adapter Pattern (for consistent provider interfaces)
+7. Builder Pattern (for prompt construction)
+8. Command Pattern (for CLI architecture)
+9. Process Communication Pattern (for Electron IPC)
+10. Module Pattern (for code organization)
 
 ## High-Level Architecture
 
