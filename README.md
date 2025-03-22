@@ -21,13 +21,16 @@ A comprehensive tool for creation, optimization, and management of PineScript tr
    npm install
    ```
 
-2. Start the UI server:
+2. Start the UI server (choose one method):
    ```
+   # Standard Next.js development server
    npm run ui
-   ```
-   or
-   ```
-   ./run-ui-clean.bat
+   
+   # Clean start with port cleanup
+   npm run ui:clean
+   
+   # Alternative Express server (if Next.js has issues)
+   npm run ui:express
    ```
 
 3. Access the web interface at:
@@ -35,16 +38,29 @@ A comprehensive tool for creation, optimization, and management of PineScript tr
    http://localhost:3001
    ```
 
-## UI Server
+## UI Server Options
 
-The project includes a Next.js-based UI for interacting with the PineScript tools. To start the UI server:
+The project includes multiple ways to serve the UI:
 
+### Next.js Development Server
 ```bash
+# Standard Next.js dev server
+npm run ui
+
 # Clean start (kills any existing processes using the ports)
-./run-ui-clean.bat
+npm run ui:clean
 
 # Start with administrator privileges (for stubborn processes)
-./run-ui-admin.bat
+npm run ui:admin
+```
+
+### Alternative Server Options
+```bash
+# Simple Express server (more stable alternative)
+npm run ui:express
+
+# Basic HTML test page server
+npm run ui:test
 ```
 
 ### Troubleshooting UI Server
@@ -52,7 +68,7 @@ The project includes a Next.js-based UI for interacting with the PineScript tool
 If you experience connection issues with the UI server:
 
 1. Check your firewall settings
-2. Run the firewall exception script: `./allow-node-firewall.bat`
+2. Run the firewall exception script: `npm run firewall:allow`
 3. See the `ui-connect-guide.md` for detailed connection troubleshooting
 
 ## Batch Files Reference
@@ -63,6 +79,7 @@ The repository includes several utility batch files to help with development and
 - `run-ui-clean.bat` - Main script to start the UI server (cleans up existing processes)
 - `run-ui-admin.bat` - Starts the UI server with administrator privileges
 - `serve-test-page.bat` - Serves a simple HTML test page on port 8000 to test connectivity
+- `run-express-server.bat` - Starts an Express server as an alternative to Next.js
 
 ### Network Troubleshooting
 - `check-connectivity.bat` - Comprehensive network connectivity diagnostics

@@ -30,19 +30,42 @@ Start-Process 'http://localhost:3001'
 start http://localhost:3001
 ```
 
-## Starting the Server
+## Server Options
 
-Use one of these scripts to start the server:
+The project includes multiple server options to ensure you can always access the UI:
 
-1. **Standard Start:**
-   ```
-   run-ui-clean.bat
-   ```
+### Option 1: Next.js Development Server
+Best for development with hot-reloading.
 
-2. **Administrator Mode** (for better process management):
-   ```
-   run-ui-admin.bat
-   ```
+```bash
+# Via NPM
+npm run ui
+
+# Or direct batch file
+run-ui-clean.bat
+```
+
+### Option 2: Express Server
+More stable alternative when Next.js has issues.
+
+```bash
+# Via NPM
+npm run ui:express
+
+# Or direct batch file
+run-express-server.bat
+```
+
+### Option 3: Simple Test Server
+Basic HTML server to verify connectivity.
+
+```bash
+# Via NPM
+npm run ui:test
+
+# Or direct batch file
+serve-test-page.bat
+```
 
 ## Server Status Check
 
@@ -88,14 +111,13 @@ Local network configuration can sometimes cause issues.
 - Run `check-connectivity.bat` to diagnose network issues
 - Check your hosts file for correct localhost mapping
 
-### 4. Simple Test Server
-If you're having trouble with the Next.js server, try the simple test server to check basic connectivity:
+### 4. Next.js Issues
+If you're having trouble with the Next.js server specifically:
 
-```
-serve-test-page.bat
-```
-
-Then access http://localhost:8000/test-page.html
+**Fix:**
+- Try the Express server instead: `npm run ui:express`
+- Use the simple test server: `npm run ui:test`
+- Delete the `.next` directory and restart: `cd ui && rm -rf .next && npm run dev`
 
 ## Utility Scripts Reference
 
@@ -103,6 +125,7 @@ Then access http://localhost:8000/test-page.html
 |-------------|-------------|------------|
 | `run-ui-clean.bat` | Start UI server with port cleanup | `npm run ui:clean` |
 | `run-ui-admin.bat` | Start UI server with admin rights | `npm run ui:admin` |
+| `run-express-server.bat` | Start Express server (alternative) | `npm run ui:express` |
 | `serve-test-page.bat` | Start simple HTML test server | `npm run ui:test` |
 | `check-connectivity.bat` | Run network diagnostics | `npm run check:network` |
 | `allow-node-firewall.bat` | Add Node.js to firewall exceptions | `npm run firewall:allow` |

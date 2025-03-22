@@ -15,6 +15,7 @@
     "ui:clean": "start run-ui-clean.bat",
     "ui:admin": "start run-ui-admin.bat",
     "ui:test": "start serve-test-page.bat",
+    "ui:express": "start run-express-server.bat",
     "clean": "taskkill /F /IM node.exe",
     "check:network": "start check-connectivity.bat",
     "firewall:allow": "start allow-node-firewall.bat",

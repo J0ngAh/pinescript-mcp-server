@@ -70,6 +70,7 @@ yarn-error.log*
 !serve-test-page.bat
 !check-connectivity.bat
 !allow-node-firewall.bat
+!run-express-server.bat
 
 # Dependencies
 package-lock.json
