@@ -65,9 +65,11 @@ yarn-error.log*
 
 # Server files
 *.bat
-!start-ui.bat
 !run-ui-clean.bat
 !run-ui-admin.bat
+!serve-test-page.bat
+!check-connectivity.bat
+!allow-node-firewall.bat
 
 # Dependencies
 package-lock.json

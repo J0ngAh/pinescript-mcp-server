@@ -55,6 +55,30 @@ If you experience connection issues with the UI server:
 2. Run the firewall exception script: `./allow-node-firewall.bat`
 3. See the `ui-connect-guide.md` for detailed connection troubleshooting
 
+## Batch Files Reference
+
+The repository includes several utility batch files to help with development and troubleshooting:
+
+### Essential Server Scripts
+- `run-ui-clean.bat` - Main script to start the UI server (cleans up existing processes)
+- `run-ui-admin.bat` - Starts the UI server with administrator privileges
+- `serve-test-page.bat` - Serves a simple HTML test page on port 8000 to test connectivity
+
+### Network Troubleshooting
+- `check-connectivity.bat` - Comprehensive network connectivity diagnostics
+- `check-windows-firewall.bat` - Check firewall status and rules
+- `allow-node-firewall.bat` - Add Node.js to Windows Firewall exceptions
+- `test-network-connection.bat` - Test specific network connections
+
+### Port Management
+- `test-port-3000.bat` - Test if port 3000 is available
+- `kill-port-3000.bat` - Kill any process using port 3000
+
+### Alternative Servers
+- `start-simple-server.bat` - Start a simple Node.js HTTP server
+- `start-python-server.bat` - Start a Python HTTP server
+- `start-ps-server.bat` - Start a PowerShell HTTP server
+
 ## Development
 
 ### Prerequisites

@@ -95,4 +95,27 @@ If you're having trouble with the Next.js server, try the simple test server to 
 serve-test-page.bat
 ```
 
-Then access http://localhost:8000/test-page.html 
+Then access http://localhost:8000/test-page.html
+
+## Utility Scripts Reference
+
+| Script Name | Description | NPM Command |
+|-------------|-------------|------------|
+| `run-ui-clean.bat` | Start UI server with port cleanup | `npm run ui:clean` |
+| `run-ui-admin.bat` | Start UI server with admin rights | `npm run ui:admin` |
+| `serve-test-page.bat` | Start simple HTML test server | `npm run ui:test` |
+| `check-connectivity.bat` | Run network diagnostics | `npm run check:network` |
+| `allow-node-firewall.bat` | Add Node.js to firewall exceptions | `npm run firewall:allow` |
+| `check-windows-firewall.bat` | Check firewall status | `npm run check:firewall` |
+
+### PowerShell Notes
+
+When running commands in PowerShell, use semicolons (`;`) instead of ampersands (`&&`) to chain commands:
+
+```powershell
+# WRONG in PowerShell:
+cd ui && npm run dev  
+
+# CORRECT in PowerShell:
+cd ui; npm run dev
+``` 
