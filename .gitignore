@@ -71,6 +71,7 @@ yarn-error.log*
 !check-connectivity.bat
 !allow-node-firewall.bat
 !run-express-server.bat
+!run-electron-app.bat
 
 # Dependencies
 package-lock.json

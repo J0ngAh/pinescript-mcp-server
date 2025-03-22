@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Improved Gold Scalping",
+    "description": "Enhanced scalping strategy for gold with BOS/CHoCH detection and dynamic risk management.",
+    "winRate": "68.5%",
+    "profit": "+24.7%"
+  },
+  {
+    "id": 2,
+    "name": "MACD Crossover",
+    "description": "Traditional MACD crossover strategy with optimized parameters for crypto markets.",
+    "winRate": "62.1%",
+    "profit": "+18.3%"
+  },
+  {
+    "id": 3,
+    "name": "RSI Reversal",
+    "description": "RSI-based mean reversion strategy with adaptive thresholds.",
+    "winRate": "57.9%",
+    "profit": "+12.5%"
+  },
+  {
+    "id": 4,
+    "name": "Volume Profile Trading",
+    "description": "Strategy based on volume profile analysis to identify key support and resistance levels.",
+    "winRate": "64.2%",
+    "profit": "+21.3%"
+  },
+  {
+    "id": 5,
+    "name": "Bollinger Band Breakout",
+    "description": "Captures breakouts from Bollinger Bands with confirmation filters.",
+    "winRate": "59.8%",
+    "profit": "+15.7%"
+  }
+] 

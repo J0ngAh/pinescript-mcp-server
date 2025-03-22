@@ -21,7 +21,7 @@ A comprehensive tool for creation, optimization, and management of PineScript tr
    npm install
    ```
 
-2. Start the UI server (choose one method):
+2. Start the UI (choose one method):
    ```
    # Standard Next.js development server
    npm run ui
@@ -31,18 +31,22 @@ A comprehensive tool for creation, optimization, and management of PineScript tr
    
    # Alternative Express server (if Next.js has issues)
    npm run ui:express
+   
+   # Desktop app (no web server required)
+   npm run ui:electron
    ```
 
 3. Access the web interface at:
    ```
    http://localhost:3001
    ```
+   (Not required for the desktop app option)
 
-## UI Server Options
+## UI Options
 
-The project includes multiple ways to serve the UI:
+The project includes multiple ways to access the UI:
 
-### Next.js Development Server
+### 1. Next.js Development Server
 ```bash
 # Standard Next.js dev server
 npm run ui
@@ -54,13 +58,20 @@ npm run ui:clean
 npm run ui:admin
 ```
 
-### Alternative Server Options
+### 2. Alternative Server Options
 ```bash
 # Simple Express server (more stable alternative)
 npm run ui:express
 
 # Basic HTML test page server
 npm run ui:test
+```
+
+### 3. Desktop Application
+For environments where web servers have connectivity issues:
+```bash
+# Electron desktop application (no web server required)
+npm run ui:electron
 ```
 
 ### Troubleshooting UI Server
@@ -70,6 +81,7 @@ If you experience connection issues with the UI server:
 1. Check your firewall settings
 2. Run the firewall exception script: `npm run firewall:allow`
 3. See the `ui-connect-guide.md` for detailed connection troubleshooting
+4. Try the desktop app option: `npm run ui:electron`
 
 ## Batch Files Reference
 
@@ -80,6 +92,7 @@ The repository includes several utility batch files to help with development and
 - `run-ui-admin.bat` - Starts the UI server with administrator privileges
 - `serve-test-page.bat` - Serves a simple HTML test page on port 8000 to test connectivity
 - `run-express-server.bat` - Starts an Express server as an alternative to Next.js
+- `run-electron-app.bat` - Starts the Electron desktop application (no web server required)
 
 ### Network Troubleshooting
 - `check-connectivity.bat` - Comprehensive network connectivity diagnostics

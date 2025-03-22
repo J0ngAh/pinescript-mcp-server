@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "description": "User interface for PineScript MCP project",
   "private": true,
+  "main": "electron/main.js",
   "scripts": {
     "dev": "next dev -H 127.0.0.1 -p 3001",
     "build": "next build",
     "start": "next start -H 127.0.0.1 -p 3001",
     "lint": "next lint",
     "test": "npx playwright test",
-    "test:headless": "npx playwright test --headed"
+    "test:headless": "npx playwright test --headed",
+    "electron:dev": "electron .",
+    "electron:build": "electron-builder",
+    "electron:start": "electron ."
   },
   "keywords": [
     "pinescript",
@@ -36,8 +40,23 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.0",
     "typescript": "^5"
+  },
+  "build": {
+    "appId": "com.pinescriptmcp.app",
+    "productName": "PineScript MCP",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "public/favicon.ico"
+    }
   }
 }
