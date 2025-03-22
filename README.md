@@ -1,114 +1,72 @@
-# TradingView PineScript MCP Server
+# PineScript MCP Project
 
-A Model Context Protocol (MCP) server for working with TradingView PineScript. This server provides tools for validating, fixing, and generating PineScript code through a standardized API.
+A comprehensive tool for creation, optimization, and management of PineScript trading strategies.
 
-## Features
+## Project Structure
 
-- **PineScript Validation** - Automatically validates PineScript code for syntax errors and warnings
-- **Error Fixing** - Automatically fixes common PineScript syntax errors
-- **Template Generation** - Provides validated templates for various PineScript strategies and indicators
+```
+├── src/             # Core application code
+├── ui/              # Next.js web interface
+├── dist/            # Compiled JavaScript
+├── docs/            # Documentation
+├── tests/           # Application tests
+├── examples/        # Example scripts and strategies
+└── memory-bank/     # Project context and information
+```
 
-## Getting Started
+## Quick Start
+
+1. Install dependencies:
+   ```
+   npm install
+   ```
+
+2. Start the UI server:
+   ```
+   npm run ui
+   ```
+   or
+   ```
+   ./run-ui-clean.bat
+   ```
+
+3. Access the web interface at:
+   ```
+   http://localhost:3001
+   ```
+
+## UI Server
+
+The project includes a Next.js-based UI for interacting with the PineScript tools. To start the UI server:
+
+```bash
+# Clean start (kills any existing processes using the ports)
+./run-ui-clean.bat
+
+# Start with administrator privileges (for stubborn processes)
+./run-ui-admin.bat
+```
+
+### Troubleshooting UI Server
+
+If you experience connection issues with the UI server:
+
+1. Check your firewall settings
+2. Run the firewall exception script: `./allow-node-firewall.bat`
+3. See the `ui-connect-guide.md` for detailed connection troubleshooting
+
+## Development
 
 ### Prerequisites
 
-- Node.js 16.x or higher
-- npm 8.x or higher
+- Node.js (v18 or higher)
+- npm (v8 or higher)
 
-### Installation
+### Building the Project
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/pinescriptproject1.git
-cd pinescriptproject1
-```
-
-2. Install dependencies
-```bash
-npm install
-```
-
-3. Build the project
 ```bash
 npm run build
 ```
-
-### Running the Server
-
-Start the MCP server:
-```bash
-npm run start-server
-```
-
-This will start the server with stdio transport, which allows it to communicate with MCP clients.
-
-## API
-
-### Tools
-
-The MCP server exposes the following tools:
-
-#### 1. `validate_pinescript`
-
-Validates PineScript code for syntax errors and warnings.
-
-**Parameters:**
-- `script` (string): The PineScript code to validate
-- `version` (string, optional): Expected PineScript version (e.g., 'v5', 'v4')
-
-**Returns:**
-- `valid` (boolean): Whether the script is valid
-- `errors` (string[]): List of syntax errors
-- `warnings` (string[]): List of warnings
-
-#### 2. `fix_pinescript_errors`
-
-Automatically fixes common syntax errors in PineScript code.
-
-**Parameters:**
-- `script` (string): The PineScript code to fix
-
-**Returns:**
-- `fixed` (boolean): Whether any fixes were applied
-- `fixedCode` (string): The fixed script
-- `changes` (string[]): List of changes made
-
-#### 3. `get_pinescript_template`
-
-Provides validated templates for common PineScript strategies and indicators.
-
-**Parameters:**
-- `template_type` (string): Type of template ('strategy' or 'indicator')
-- `name` (string): Template name
-
-**Returns:**
-- `template` (string): The template code
-- `message` (string): Confirmation message
-
-## Supported PineScript Features
-
-### Syntax Validation
-
-The validator currently checks for:
-- Empty scripts
-- Version annotations
-- Balanced parentheses
-- String quotes
-- Comma placement in function calls
-- Deprecated functions in PineScript v5
-- Incorrect variable export syntax
-
-### Error Fixing
-
-The fixer can automatically fix:
-- Missing version annotations
-- Unbalanced parentheses
-- Unclosed string literals
-- Missing commas in function calls
-- Deprecated study() function
-- Incorrect variable export syntax
-
-## Development
 
 ### Running Tests
 
@@ -116,17 +74,23 @@ The fixer can automatically fix:
 npm test
 ```
 
-### Debugging
+## Features
 
-To run the server in development mode with automatic reloading:
-```bash
-npm run dev
-```
+- Strategy creation and editing
+- Backtesting capabilities
+- Performance analysis
+- Strategy optimization
+- TradingView integration
+
+## Documentation
+
+See the `docs/` directory for detailed documentation on:
+- API Reference
+- User Guide
+- Development Guide
 
 ## License
 
-ISC
+This project is proprietary and confidential.
 
-## Contributing
-
-Contributions are welcome! 
+Copyright © 2025. All rights reserved. 

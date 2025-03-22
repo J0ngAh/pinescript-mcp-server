@@ -1,15 +1,32 @@
 //@version=6
-strategy("Gold Scalping BOS & CHoCH with MA Filter", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=1)
+strategy("Improved Gold Scalping BOS & CHoCH", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=1)
 
-// Support & Resistance Levels
-recentLow = ta.lowest(low, 10)
-recentHigh = ta.highest(high, 10)
+// Input parameters for strategy customization
+lookbackPeriod = input.int(10, "Support/Resistance Lookback", minval=5, maxval=50)
+swingLookback = input.int(5, "Swing Lookback", minval=3, maxval=20)
+volumeFilter = input.bool(true, "Apply Volume Filter")
+tpMultiplier = input.float(2.0, "TP Multiplier", minval=1.0, maxval=5.0, step=0.5)
+slMultiplier = input.float(0.8, "SL Multiplier", minval=0.5, maxval=2.0, step=0.1)
+useATR = input.bool(true, "Use ATR for Stop Loss")
+atrPeriod = input.int(14, "ATR Period", minval=1, maxval=50)
+atrMultiplier = input.float(1.5, "ATR Multiplier", minval=0.5, maxval=5.0, step=0.1)
+useRSIFilter = input.bool(true, "Use RSI Filter")
+rsiPeriod = input.int(14, "RSI Period", minval=5, maxval=50)
+rsiOverbought = input.int(70, "RSI Overbought", minval=50, maxval=90)
+rsiOversold = input.int(30, "RSI Oversold", minval=10, maxval=50)
 
-// Moving Average Trend Filter
-fastMA = ta.ema(close, 20)
-slowMA = ta.ema(close, 50)
-uptrend = fastMA > slowMA
-downtrend = fastMA < slowMA
+// Support & Resistance Levels with custom lookback
+recentLow = ta.lowest(low, lookbackPeriod)
+recentHigh = ta.highest(high, lookbackPeriod)
+
+// Volume Filter
+volumeAvg = ta.sma(volume, 20)
+volumeCondition = volumeFilter ? volume > volumeAvg * 1.5 : true
+
+// RSI Filter
+rsiValue = ta.rsi(close, rsiPeriod)
+bullishRSI = useRSIFilter ? rsiValue < rsiOversold : true
+bearishRSI = useRSIFilter ? rsiValue > rsiOverbought : true
 
 // Break of Structure (BOS) with Confirmation
 var float lastSwingHigh = na
@@ -17,33 +34,43 @@ var float lastSwingLow = na
 bosBullish = false
 bosBearish = false
 
-lastSwingHigh := ta.highest(high[1], 5)
+lastSwingHigh := ta.highest(high[1], swingLookback)
 bosBullish := high > lastSwingHigh
 
-lastSwingLow := ta.lowest(low[1], 5)
+lastSwingLow := ta.lowest(low[1], swingLookback)
 bosBearish := low < lastSwingLow
 
-// Change of Character (CHoCH) with Immediate Reaction
-chochBullish = bosBearish and ta.crossover(close, lastSwingLow)
-chochBearish = bosBullish and ta.crossunder(close, lastSwingHigh)
+// Change of Character (CHoCH) with Improved Confirmation
+// Use more conditions to confirm the change of character
+chochBullish = bosBearish and ta.crossover(close, lastSwingLow) and bullishRSI
+chochBearish = bosBullish and ta.crossunder(close, lastSwingHigh) and bearishRSI
 
-// Buy Entry Conditions (Refined for Early Entries with MA Filter)
-buyCondition = bosBullish and chochBullish and uptrend
+// Price Action Confirmation
+bullishEngulfing = close > open and close > high[1] and open < low[1]
+bearishEngulfing = close < open and close < low[1] and open > high[1]
 
-// Sell Entry Conditions (Refined for Early Entries with MA Filter)
-sellCondition = bosBearish and chochBearish and downtrend
+// Calculate ATR for dynamic stop loss
+atrValue = ta.atr(atrPeriod)
 
-// Stop Loss & Take Profit (Dynamic and Adaptive)
-longSL = recentLow
-shortSL = recentHigh
-longTP = close + ((close - longSL) * 2)
-shortTP = close - ((shortSL - close) * 2)
+// Enhanced Buy Entry Conditions
+buyCondition = bosBullish and chochBullish and volumeCondition
+
+// Enhanced Sell Entry Conditions
+sellCondition = bosBearish and chochBearish and volumeCondition
+
+// Dynamic Stop Loss based on ATR or fixed levels
+longSL = useATR ? close - atrValue * atrMultiplier : recentLow * slMultiplier
+shortSL = useATR ? close + atrValue * atrMultiplier : recentHigh * slMultiplier
+
+// Enhanced Take Profit using multiples
+longTP = close + ((close - longSL) * tpMultiplier)
+shortTP = close - ((shortSL - close) * tpMultiplier)
 
 // Ensure SL and TP are valid before executing trades
-validLongTrade = buyCondition and (longSL < close)
-validShortTrade = sellCondition and (shortSL > close)
+validLongTrade = buyCondition and (longSL < close) and not bearishRSI
+validShortTrade = sellCondition and (shortSL > close) and not bullishRSI
 
-// Execute Trades
+// Execute Trades with improved risk management
 if validLongTrade
     strategy.entry("Long", strategy.long)
     strategy.exit("Exit Long", from_entry="Long", stop=longSL, limit=longTP)
@@ -56,10 +83,19 @@ if validShortTrade
 plotshape(series=buyCondition, location=location.belowbar, color=color.green, style=shape.labelup, title="BUY")
 plotshape(series=sellCondition, location=location.abovebar, color=color.red, style=shape.labeldown, title="SELL")
 
-// Debugging: Show swing high/low levels
+// Plot levels for analysis
 plot(lastSwingHigh, title="Last Swing High", color=color.blue, linewidth=2, style=plot.style_linebr)
 plot(lastSwingLow, title="Last Swing Low", color=color.orange, linewidth=2, style=plot.style_linebr)
+plot(longSL, title="Long Stop Loss", color=color.red, linewidth=1, style=plot.style_circles)
+plot(longTP, title="Long Take Profit", color=color.green, linewidth=1, style=plot.style_circles)
 
-// Plot Moving Averages
-plot(fastMA, title="Fast EMA", color=color.green, linewidth=1)
-plot(slowMA, title="Slow EMA", color=color.red, linewidth=1) 
+// Display strategy information
+if barstate.islastconfirmedhistory
+    tbl = table.new(position.top_right, 5, 7, color.black, color.white, 1, color.gray, 1)
+    table.cell(tbl, 0, 0, "Improved Gold Scalping Strategy", text_color=color.white, bgcolor=color.blue)
+    table.cell(tbl, 0, 1, "Settings", text_color=color.white, bgcolor=color.gray)
+    table.cell(tbl, 0, 2, "Swing Lookback: " + str.tostring(swingLookback), text_color=color.black)
+    table.cell(tbl, 0, 3, "TP Multiplier: " + str.tostring(tpMultiplier), text_color=color.black)
+    table.cell(tbl, 0, 4, "SL Type: " + (useATR ? "ATR" : "Fixed"), text_color=color.black)
+    table.cell(tbl, 0, 5, "Volume Filter: " + (volumeFilter ? "On" : "Off"), text_color=color.black)
+    table.cell(tbl, 0, 6, "RSI Filter: " + (useRSIFilter ? "On" : "Off"), text_color=color.black) 

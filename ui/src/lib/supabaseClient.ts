@@ -1,26 +1,75 @@
+/**
+ * Supabase Client Configuration
+ * 
+ * This module handles Supabase client initialization with proper
+ * environment variable handling and graceful fallbacks for development.
+ */
+
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variables would typically be used in a real project
-// but for demonstration we'll use placeholder values
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'your-supabase-url';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-supabase-key';
+// Safely access environment variables with proper type checking
+const getEnvVar = (key: string): string | undefined => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[key];
+  }
+  // For client-side, use Next.js public env vars
+  if (typeof window !== 'undefined') {
+    // @ts-ignore - Next.js injects these variables
+    return window.__NEXT_DATA__?.props?.pageProps?.env?.[key];
+  }
+  return undefined;
+};
+
+// Get environment variables with safe fallbacks
+const supabaseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL');
+const supabaseKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+
+// Create client only if valid credentials exist
+const createSupabaseClient = () => {
+  // Only try to create a client if both URL and key are present and valid
+  if (typeof supabaseUrl === 'string' && 
+      supabaseUrl.startsWith('http') && 
+      typeof supabaseKey === 'string' && 
+      supabaseKey.length > 0) {
+    try {
+      return createClient(supabaseUrl, supabaseKey);
+    } catch (error) {
+      console.error('Failed to initialize Supabase client:', error);
+      return null;
+    }
+  }
+  
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+      'Supabase credentials not found in environment variables. ' +
+      'Using mock implementation. ' +
+      'Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables for proper configuration.'
+    );
+  }
+  
+  return null;
+};
+
+// Initialize the client (or set to null if not configured)
+const supabaseClient = createSupabaseClient();
+
+// Define types that match what we'd expect from Supabase
+export interface UploadLogResponse {
+  id: string;
+  file_name: string;
+  created_at: string;
+  error?: boolean;
+}
 
 /**
- * Initialize the Supabase client for database operations
- * 
- * In production, the URL and keys should be stored in environment
- * variables and not hardcoded in the source.
- */
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
-/**
- * Logs a file upload to Supabase
+ * Logs a file upload with graceful fallback to mock implementation
  * 
  * @param fileName - Name of the uploaded file
  * @param fileSize - Size of the file in bytes
  * @param uploadType - Type of upload (e.g., 'trade_results', 'historical_data')
+ * @param fileType - MIME type of the file
  * @param metadata - Additional metadata about the upload
- * @returns Promise with the result of the database insert operation
+ * @returns Promise with the result or a mock response
  */
 export async function logFileUpload(
   fileName: string,
@@ -28,44 +77,70 @@ export async function logFileUpload(
   uploadType: 'trade_results' | 'historical_data' | 'strategy_code',
   fileType: string = 'text/csv',
   metadata: Record<string, any> = {}
-) {
+): Promise<UploadLogResponse> {
   try {
-    // When Supabase is properly configured, this would be an actual DB insert
-    // For now, we'll simulate the operation
-    console.log('Logging file upload to Supabase:', {
-      fileName,
-      fileSize,
-      uploadType,
-      fileType,
-      metadata,
-      timestamp: new Date().toISOString(),
-    });
+    // Log the upload information (debug mode only)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('File upload log:', {
+        fileName,
+        fileSize,
+        uploadType,
+        fileType,
+        timestamp: new Date().toISOString(),
+      });
+    }
     
-    // Uncomment for actual Supabase implementation
-    // const { data, error } = await supabaseClient
-    //   .from('file_uploads')
-    //   .insert([
-    //     {
-    //       file_name: fileName,
-    //       file_size: fileSize,
-    //       upload_type: uploadType,
-    //       file_type: fileType,
-    //       metadata,
-    //     },
-    //   ]);
+    // If we have a valid Supabase client, use it
+    if (supabaseClient) {
+      try {
+        // Real Supabase implementation
+        // const { data, error } = await supabaseClient
+        //   .from('file_uploads')
+        //   .insert([
+        //     {
+        //       file_name: fileName,
+        //       file_size: fileSize,
+        //       upload_type: uploadType,
+        //       file_type: fileType,
+        //       metadata,
+        //     },
+        //   ])
+        //   .select()
+        //   .single();
+        
+        // if (error) throw error;
+        // return data as UploadLogResponse;
+        
+        // Mock the response for now
+        return {
+          id: `upload_${Date.now()}`,
+          file_name: fileName,
+          created_at: new Date().toISOString(),
+        };
+      } catch (error) {
+        console.error('Supabase operation failed:', error);
+        throw error;
+      }
+    }
     
-    // if (error) throw error;
-    // return data;
+    // Mock implementation for development or when Supabase is not configured
+    await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
     
-    // Mock response
     return {
-      id: `upload_${Date.now()}`,
+      id: `upload_mock_${Date.now()}`,
       file_name: fileName,
       created_at: new Date().toISOString(),
     };
   } catch (error) {
     console.error('Error logging file upload:', error);
-    throw error;
+    
+    // Return a graceful error response
+    return {
+      id: `upload_error_${Date.now()}`,
+      file_name: fileName,
+      created_at: new Date().toISOString(),
+      error: true
+    };
   }
 }
 
@@ -75,32 +150,7 @@ export async function logFileUpload(
  * @returns Promise<boolean> indicating if Supabase is available
  */
 export async function isSupabaseAvailable(): Promise<boolean> {
-  try {
-    // In a real implementation, we would make a simple query to verify connectivity
-    // For demonstration purposes, we'll just check if the URL and key are set
-    const hasValidConfig = 
-      supabaseUrl !== 'your-supabase-url' && 
-      supabaseKey !== 'your-supabase-key';
-    
-    if (!hasValidConfig) {
-      console.warn('Supabase is not properly configured');
-      return false;
-    }
-    
-    // Uncomment for actual implementation
-    // const { data, error } = await supabaseClient
-    //   .from('health_check')
-    //   .select('status')
-    //   .limit(1);
-    
-    // return !error;
-    
-    // Mock response
-    return hasValidConfig;
-  } catch (error) {
-    console.error('Error checking Supabase availability:', error);
-    return false;
-  }
+  return Promise.resolve(supabaseClient !== null);
 }
 
 export default supabaseClient; 

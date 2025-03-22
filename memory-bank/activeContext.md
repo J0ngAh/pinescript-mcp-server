@@ -1,5 +1,107 @@
 # Active Context
 
+## Current Focus: UI Development and Backend Integration
+
+We are currently focused on developing the user interface for the PineScript MCP project. We've successfully implemented a Next.js application with key pages for strategies, templates, and analysis. The UI is responsive and follows modern design principles with Tailwind CSS.
+
+### Recent Accomplishments
+
+1. **UI Framework Setup**: 
+   - Installed and configured Next.js 15.2
+   - Set up TypeScript for type safety
+   - Configured Tailwind CSS for styling
+   - Created responsive layout with navigation
+
+2. **Key Pages**:
+   - Implemented strategies listing page with performance metrics
+   - Created template management page with category organization
+   - Built analysis page with strategy code input and options
+   - Prepared for results visualization
+
+3. **Template System Enhancement**:
+   - Successfully integrated vector embeddings for templates
+   - Implemented semantic search capabilities
+   - Created CLI commands for template management
+   - Added version tracking for templates
+
+4. **UI Server Improvements**:
+   - Implemented simplified server management scripts for reliable operation
+   - Added a direct server starter for robust UI serving
+   - Created simple batch file wrappers for easier user interaction
+   - Added port conflict resolution to automatically free port 3000
+   - Enhanced documentation for server usage instructions
+
+### Current Challenges
+
+1. **Backend-Frontend Integration**:
+   - Need to develop API endpoints for the frontend to communicate with the backend
+   - Implement authentication and authorization
+   - Create data fetching and state management strategies
+
+2. **User Experience Flow**:
+   - Design and implement the process flow for strategy analysis
+   - Create effective visualization for analysis results
+   - Build intuitive interface for strategy management
+
+3. **Deployment Considerations**:
+   - Determine deployment strategy for combined frontend and backend
+   - Consider containerization options
+   - Implement CI/CD pipeline
+
+4. **Environment Variable Best Practices**: Ensuring secure handling of credentials, with proper environment variable management across development and production environments. Credentials should never be hardcoded in the codebase.
+
+5. **Supabase Integration**: Determining the optimal database schema and access patterns for storing uploaded file metadata and analysis results in Supabase.
+
+### Next Actions
+
+1. **API Development**:
+   - Create REST API endpoints for strategy operations
+   - Implement template management API
+   - Develop authentication endpoints
+
+2. **UI Enhancement**:
+   - Build dashboard with usage statistics
+   - Create strategy editor with syntax highlighting
+   - Develop results visualization components
+   - Implement user preferences and settings
+
+3. **Integration**:
+   - Connect frontend components to backend APIs
+   - Implement real-time feedback during analysis
+   - Create comprehensive error handling
+
+4. **Testing and Documentation**:
+   - Develop UI component tests
+   - Create end-to-end tests for key workflows
+   - Update documentation with UI usage instructions
+
+5. **Complete UI development with proper error handling and loading states**
+
+6. **Implement the actual Supabase integration for data storage once credentials are properly configured**
+
+7. **Build the API endpoints to connect the UI with backend services**
+
+8. **Develop the analysis results display components**
+
+### Architecture Decisions
+
+1. Using Next.js for frontend development to leverage server components and API routes
+2. Implementing Tailwind CSS for consistent styling and responsive design
+3. Adopting a modular approach to UI components for reusability
+4. Focusing on accessibility and responsive design from the start
+5. Planning for internationalization support in the future
+
+6. **Environment Variables**: We'll use Next.js environment variables with proper typing and fallbacks for all external service credentials. Environment files will be explicitly excluded from version control.
+
+7. **Supabase Integration**: All database interactions will use a properly initialized Supabase client that gracefully handles missing credentials in development environments.
+
+### Current Priorities
+
+1. Complete the connection between frontend and backend services
+2. Implement authentication and user management
+3. Enhance the analysis workflow with real-time feedback
+4. Develop visualization for analysis results
+
 ## Current Focus
 The current focus is on implementing Phase 3 of the PineScript MCP project, with an immediate pivot to prioritize the User Interface development. Based on user feedback, we're moving interface design and testing to the beginning of our timeline to enable earlier hands-on interactions, which will help identify limitations and push the boundaries of the system sooner.
 
@@ -13,6 +115,12 @@ The current focus is on implementing Phase 3 of the PineScript MCP project, with
 7. Resolved references to the correct template embedding method in vector store tests
 8. Successfully ran the test suite with all tests passing
 9. Reprioritized project plan to start with UI development instead of completing all template and testing work first
+
+10. **Improved Supabase Integration**: Implemented proper environment variable handling for Supabase credentials with graceful fallbacks for development environments. Added `.env.example` file to document required variables and updated `.gitignore` to prevent accidental credential commits.
+
+11. **Enhanced CSV File Handling**: Added robust CSV parsing and validation for trade results and historical price data uploads, with proper error handling and user feedback.
+
+12. **UI Development**: Created and refined key user interface components, including the strategies list, templates gallery, and analyze workflow.
 
 ## Next Steps
 1. Begin User Interface Design and Testing (New top priority):
@@ -156,4 +264,115 @@ We have completed the implementation of the LLM integration with the following c
 - Template repository is in `src/prompts/templateRepository.ts`
 - Template vector store is in `src/prompts/templateVectorStore.ts`
 - Supabase client is in `src/db/supabaseClient.ts`
-- Vector store is in `src/db/vector/vectorStore.ts` 
+- Vector store is in `src/db/vector/vectorStore.ts`
+
+## Latest UI Testing Progress
+
+We have successfully completed functional testing of the PineScript MCP UI. Key achievements include:
+
+1. **Testing Framework Setup**:
+   - Created comprehensive functional testing plan with clearly defined test scenarios
+   - Established manual testing procedures with step-by-step instructions
+   - Set up Playwright for automated UI testing
+   - Created sample data files for testing file upload functionality
+
+2. **Test Execution**:
+   - Completed manual testing of all UI components
+   - Verified core functionality working correctly
+   - Identified areas needing implementation or improvement
+   - Documented test results with detailed notes
+
+3. **Test Results**:
+   - 13 out of 14 tests passed or partially passed
+   - Key features like navigation, strategy management, and analysis options working correctly
+   - File upload functionality (including drag-and-drop) working as expected
+   - Templates page still needs implementation
+
+4. **Recommendations**:
+   - Complete the strategy filtering functionality
+   - Implement the Templates page
+   - Add comprehensive error handling
+   - Implement API integration to replace mock data
+   - Add loading states for operations in progress
+   - Extend the automated test suite
+
+The next steps in UI development should focus on implementing the remaining features and connecting the frontend to the backend services through a well-defined API layer.
+
+## OpenAI Agents API for UI Testing
+
+Based on recent research, we've identified significant opportunities to enhance our UI testing capabilities using OpenAI's latest AI agent technologies. The following approaches will be integrated into our testing framework:
+
+### Key Technologies
+
+1. **OpenAI Assistants API with Function Calling**:
+   - Allows creation of specialized AI assistants that can control testing tools
+   - Provides a stateful conversation model suitable for complex test scenarios
+   - Enables function calling to execute specific testing actions
+   - Can be integrated with existing testing frameworks like Playwright or Selenium
+
+2. **OpenAI Operator** (future potential):
+   - Recent browser automation tool capable of autonomous web interaction
+   - Currently limited to ChatGPT Pro users in the US
+   - No public API yet, but represents the direction of AI-powered testing
+   - Alternatives include open-source projects like OpenOperator and Web UI by Browser Use
+
+### Implementation Plan
+
+We will create a new testing module that leverages the OpenAI Assistants API to:
+1. Define a UI testing assistant with specialized knowledge of our application
+2. Create function definitions that map to all key UI operations
+3. Connect these functions to browser automation tools like Playwright
+4. Design test scenarios based on user workflows identified in our functional testing
+5. Execute tests and analyze results with AI assistance
+
+This approach offers several advantages:
+- Tests can be defined in natural language
+- Test coverage can adapt to UI changes with minimal maintenance
+- Edge cases can be more thoroughly explored
+- Testing can become more resilient to minor UI changes
+
+### Next Steps
+
+1. Implement the core UI testing module with OpenAI Assistants API integration
+2. Define the standard test functions for our UI components
+3. Create end-to-end test scenarios for critical user journeys
+4. Integrate with our CI/CD pipeline for automated test execution 
+
+## Current Focus
+
+### AI-Powered UI Testing Implementation
+
+We have successfully implemented a framework for AI-powered UI testing using the OpenAI Assistants API. This represents a significant enhancement to our testing capabilities, allowing us to define tests in natural language and leverage AI to interact with the UI.
+
+Key components of the implementation include:
+
+- `AssistantTestAgent` class that provides the core functionality for AI-powered UI testing
+- PyTest integration for running AI-powered tests alongside traditional tests
+- Test runner script with CLI interface for executing test scenarios
+- Sample test data and example test cases for common UI interactions
+
+The implementation uses the following technologies:
+
+- **OpenAI Assistants API** with function calling to interpret test instructions
+- **Playwright** for browser automation and UI interaction
+- **PyTest** for test organization and execution
+- **AsyncIO** for handling asynchronous operations
+
+The AI testing module enables several new capabilities:
+
+1. **Natural Language Test Definitions**: Tests can be defined in plain English, making them more accessible to non-technical team members.
+2. **Reduced Test Maintenance**: The AI can adapt to minor UI changes without requiring test code updates.
+3. **Exploratory Testing**: The AI can discover unexpected issues through creative exploration of the UI.
+4. **Documentation Generation**: Test results include detailed narratives of what was tested and observed.
+
+#### Next Steps for AI Testing
+
+1. Expand test coverage to include all main user workflows
+2. Integrate with CI/CD pipeline for automated test execution
+3. Add more advanced test scenarios for edge cases and error handling
+4. Explore using the AI to generate test reports and insights
+5. Implement visual comparison capabilities for UI verification
+
+### Strategy Analysis Components
+
+Our next focus area will be enhancing the strategy analysis components: 

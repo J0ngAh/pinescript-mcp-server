@@ -189,4 +189,42 @@ flowchart TD
     
     ConfigValidation[Config Validation] --> ConfigLoader
     ConfigStorage[Config Storage] --> ConfigFile
-``` 
+```
+
+## External Service Credentials
+
+### Environment Variable Best Practices
+
+1. **Never hardcode credentials in the source code**
+   - All external service credentials should be stored in environment variables
+   - Development environments should utilize `.env.local` files that are gitignored
+   - Production environments should use platform-specific environment variable configurations
+
+2. **Environment variable management**
+   - Use `.env.example` to document required variables
+   - Implement typed access to environment variables with graceful fallbacks
+   - Validate environment variables at application startup
+   - Prefix client-side variables with `NEXT_PUBLIC_` in Next.js
+
+3. **Credential validation**
+   - Ensure the presence of required environment variables
+   - Validate that credentials meet minimum format requirements
+   - Provide clear error messages for missing or invalid credentials
+   - Implement fallback behaviors for development environments
+
+### Supabase Integration
+
+1. **Client initialization**
+   - Initialize the Supabase client only when valid credentials are available
+   - Implement graceful fallbacks in development environments
+   - Provide clear logging about credential status
+
+2. **Error handling**
+   - Catch and log Supabase operation errors properly
+   - Provide user-friendly error messages without exposing sensitive details
+   - Implement retry mechanisms for transient errors
+
+3. **Data access patterns**
+   - Use proper Row Level Security (RLS) for table access
+   - Define typed interfaces for all database models
+   - Implement data validation before insertion 

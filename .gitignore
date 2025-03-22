@@ -47,3 +47,58 @@ coverage/
 
 # Generated strategy files
 enhanced/ 
+
+# NodeJS
+node_modules/
+coverage/
+dist/
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Server files
+*.bat
+!start-ui.bat
+!run-ui-clean.bat
+!run-ui-admin.bat
+
+# Dependencies
+package-lock.json
+
+# Testing
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# History
+.history/
+.pinescript_history/
+
+# Misc
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+
+# Next.js
+.next/
+/out/
+
+# Vercel
+.vercel 
