@@ -9,6 +9,11 @@ A comprehensive tool for creation, optimization, and management of PineScript tr
 ├── ui/              # Next.js web interface
 ├── dist/            # Compiled JavaScript
 ├── docs/            # Documentation
+├── scripts/         # Utility scripts
+│   ├── server/      # Server management scripts
+│   ├── network/     # Network diagnostics scripts
+│   └── docs/        # Documentation
+├── data/            # Data files
 ├── tests/           # Application tests
 ├── examples/        # Example scripts and strategies
 └── memory-bank/     # Project context and information
@@ -80,34 +85,31 @@ If you experience connection issues with the UI server:
 
 1. Check your firewall settings
 2. Run the firewall exception script: `npm run firewall:allow`
-3. See the `ui-connect-guide.md` for detailed connection troubleshooting
+3. See the `scripts/docs/ui-connect-guide.md` for detailed connection troubleshooting
 4. Try the desktop app option: `npm run ui:electron`
 
-## Batch Files Reference
+## Utility Scripts
 
-The repository includes several utility batch files to help with development and troubleshooting:
+The repository includes several utility scripts to help with development and troubleshooting:
 
-### Essential Server Scripts
+### Essential Server Scripts (in scripts/server/)
 - `run-ui-clean.bat` - Main script to start the UI server (cleans up existing processes)
 - `run-ui-admin.bat` - Starts the UI server with administrator privileges
 - `serve-test-page.bat` - Serves a simple HTML test page on port 8000 to test connectivity
 - `run-express-server.bat` - Starts an Express server as an alternative to Next.js
 - `run-electron-app.bat` - Starts the Electron desktop application (no web server required)
 
-### Network Troubleshooting
+### Network Troubleshooting (in scripts/network/)
 - `check-connectivity.bat` - Comprehensive network connectivity diagnostics
 - `check-windows-firewall.bat` - Check firewall status and rules
 - `allow-node-firewall.bat` - Add Node.js to Windows Firewall exceptions
 - `test-network-connection.bat` - Test specific network connections
-
-### Port Management
 - `test-port-3000.bat` - Test if port 3000 is available
 - `kill-port-3000.bat` - Kill any process using port 3000
 
-### Alternative Servers
-- `start-simple-server.bat` - Start a simple Node.js HTTP server
-- `start-python-server.bat` - Start a Python HTTP server
-- `start-ps-server.bat` - Start a PowerShell HTTP server
+### Documentation (in scripts/docs/)
+- `ui-connect-guide.md` - Comprehensive guide to UI connectivity troubleshooting
+- `README-UI.md` - UI-specific documentation
 
 ## Development
 

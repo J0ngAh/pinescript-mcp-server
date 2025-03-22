@@ -12,15 +12,15 @@
     "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"tsc && node dist/index.js\"",
     "start": "node dist/index.js",
     "ui": "cd ui && npm run dev",
-    "ui:clean": "start run-ui-clean.bat",
-    "ui:admin": "start run-ui-admin.bat",
-    "ui:test": "start serve-test-page.bat",
-    "ui:express": "start run-express-server.bat",
-    "ui:electron": "start run-electron-app.bat",
+    "ui:clean": "start scripts\\server\\run-ui-clean.bat",
+    "ui:admin": "start scripts\\server\\run-ui-admin.bat",
+    "ui:test": "start scripts\\server\\serve-test-page.bat",
+    "ui:express": "start scripts\\server\\run-express-server.bat",
+    "ui:electron": "start scripts\\server\\run-electron-app.bat",
     "clean": "taskkill /F /IM node.exe",
-    "check:network": "start check-connectivity.bat",
-    "firewall:allow": "start allow-node-firewall.bat",
-    "check:firewall": "start check-windows-firewall.bat"
+    "check:network": "start scripts\\network\\check-connectivity.bat",
+    "firewall:allow": "start scripts\\network\\allow-node-firewall.bat",
+    "check:firewall": "start scripts\\network\\check-windows-firewall.bat"
   },
   "keywords": [
     "pinescript",
