@@ -3,9 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
+// Removed electron-squirrel-startup dependency as it's not installed
 
 let mainWindow;
 
@@ -59,7 +57,7 @@ app.on('window-all-closed', () => {
 ipcMain.handle('get-strategies', async () => {
   try {
     // Read from a local file as an example
-    const strategyData = fs.readFileSync(path.join(__dirname, '../data/strategies.json'), 'utf-8');
+    const strategyData = fs.readFileSync(path.join(__dirname, 'electron-data/strategies.json'), 'utf-8');
     return JSON.parse(strategyData);
   } catch (error) {
     console.error('Error reading strategies:', error);

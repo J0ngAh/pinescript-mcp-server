@@ -8,8 +8,11 @@ echo.
 
 cd ui
 
-echo Installing Electron if needed...
-call npm install electron electron-builder --save-dev --silent
+echo Installing Electron globally if needed...
+call npm install -g electron
+
+echo Installing project dependencies...
+call npm install
 
 echo Starting Electron app...
 echo.
@@ -18,7 +21,7 @@ echo.
 echo Press Ctrl+C to stop the app when done.
 echo.
 
-npm run electron:start
+npx electron .
 
 cd ..
 pause 
