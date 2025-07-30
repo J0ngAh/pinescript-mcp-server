@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "pinescript-server": {
+      "command": "npx",
+      "args": ["pinescript-mcp-server"],
+      "env": {
+        "NODE_OPTIONS": "--enable-source-maps",
+        "PINESCRIPT_WORKSPACE": "~/Documents/PineScripts",
+        "PINESCRIPT_CONFIG": "~/.config/pinescript/config.json"
+      }
+    }
+  }
+}

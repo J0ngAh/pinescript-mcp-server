@@ -138,6 +138,47 @@ npm test
 - Strategy optimization
 - TradingView integration
 
+## Claude Desktop Integration
+
+The PineScript MCP Server can be integrated with Claude Desktop to provide AI-assisted PineScript development capabilities.
+
+### Quick Start (macOS)
+
+```bash
+# Install and configure with one command
+npx pinescript-mcp-server
+
+# Or add to Claude Desktop
+claude mcp add pinescript-server npx --args pinescript-mcp-server
+```
+
+### Quick Start (Windows)
+
+```bash
+# Add to Claude Desktop with Windows-specific wrapper
+claude mcp add pinescript-server cmd --args /c npx pinescript-mcp-server
+```
+
+### Documentation
+
+For detailed setup instructions, platform-specific configurations, and troubleshooting:
+- See [CLAUDE_DESKTOP_SETUP.md](./CLAUDE_DESKTOP_SETUP.md)
+
+### Example Configurations
+
+- [.mcp.json.example](./.mcp.json.example) - Basic configuration
+- [.mcp.json.mac.example](./.mcp.json.mac.example) - macOS-specific example
+- [.mcp.json.windows.example](./.mcp.json.windows.example) - Windows-specific example
+
+### Features Available in Claude Desktop
+
+When integrated with Claude Desktop, you can:
+- Create and edit PineScript strategies
+- Run backtests and analyze performance
+- Optimize trading parameters
+- Generate TradingView-compatible code
+- Access real-time market data (with proper API configuration)
+
 ## Documentation
 
 See the `docs/` directory for detailed documentation on:

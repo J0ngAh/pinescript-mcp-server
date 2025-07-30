@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "pinescript-server": {
+      "command": "npx",
+      "args": ["pinescript-mcp-server"],
+      "env": {
+        "NODE_OPTIONS": "--enable-source-maps"
+      }
+    }
+  }
+}
