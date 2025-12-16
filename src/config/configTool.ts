@@ -30,7 +30,7 @@ export function registerConfigTools(mcp: FastMCP): void {
     name: 'update_pinescript_config',
     description: 'Update PineScript MCP configuration settings',
     parameters: z.object({
-      config: z.record(z.any()).describe('Configuration object with the settings to update')
+      config: z.record(z.string(), z.any()).describe('Configuration object with the settings to update')
     }),
     execute: async ({ config: newConfig }) => {
       try {
